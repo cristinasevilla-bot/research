@@ -601,6 +601,7 @@ Responde SOLO con JSON válido, sin markdown, sin texto adicional:
     if (!response.ok) throw new Error('Error en la API');
 
     const data = await response.json();
+    console.log('API response:', JSON.stringify(data));
     const text = data.content.map(i => i.text || '').join('');
     const clean = text.replace(/```json|```/g, '').trim();
     const result = JSON.parse(clean);
