@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SalónReach — Mensajes que convierten</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #F7F3EE;
+      --dark: #1A1410;
+      --rose: #C9736A;
+      --rose-light: #E8A89F;
+      --gold: #C4A35A;
+      --muted: #8A7E74;
+      --card: #FFFFFF;
+      --border: #E8E0D8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--cream);
+      color: var(--dark);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Background texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle at 20% 20%, rgba(201,115,106,0.06) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(196,163,90,0.06) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      padding: 48px 0 40px;
+      text-align: center;
+    }
+
+    .logo-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--rose);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .logo-text span {
+      color: var(--rose);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--rose);
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 480px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    /* Main card */
+    .card {
+      background: var(--card);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 36px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 24px rgba(26,20,16,0.06);
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    /* Profile input area */
+    .profile-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .ig-input {
+      flex: 1;
+      background: var(--cream);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: var(--dark);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .ig-input:focus {
+      border-color: var(--rose);
+      box-shadow: 0 0 0 3px rgba(201,115,106,0.12);
+    }
+
+    .ig-input::placeholder { color: var(--muted); }
+
+    /* Context fields */
+    .context-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .context-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .context-field label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .context-field select,
+    .context-field input {
+      background: var(--cream);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--dark);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .context-field select:focus,
+    .context-field input:focus {
+      border-color: var(--rose);
+    }
+
+    /* Bio textarea */
+    .bio-area {
+      width: 100%;
+      background: var(--cream);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--dark);
+      outline: none;
+      resize: vertical;
+      min-height: 80px;
+      transition: border-color 0.2s;
+    }
+
+    .bio-area:focus { border-color: var(--rose); }
+    .bio-area::placeholder { color: var(--muted); }
+
+    /* Generate button */
+    .btn-generate {
+      width: 100%;
+      background: var(--rose);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 16px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      letter-spacing: 0.2px;
+    }
+
+    .btn-generate:hover {
+      background: #B5625A;
+      box-shadow: 0 6px 20px rgba(201,115,106,0.35);
+      transform: translateY(-1px);
+    }
+
+    .btn-generate:active { transform: translateY(0); }
+
+    .btn-generate:disabled {
+      background: var(--rose-light);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Loading */
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Result area */
+    .result-card {
+      background: var(--card);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 36px;
+      box-shadow: 0 4px 24px rgba(26,20,16,0.06);
+      display: none;
+      animation: fadeUp 0.4s ease;
+    }
+
+    .result-card.visible { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .analysis-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12px;
+      color: var(--dark);
+      font-weight: 400;
+    }
+
+    .pill.positive { border-color: #A8C5A0; background: #F0F7EF; color: #3A6B35; }
+    .pill.negative { border-color: #E8A89F; background: #FDF0EE; color: #8B3A35; }
+    .pill.neutral { border-color: var(--gold); background: #FBF6EC; color: #7A6020; }
+
+    /* Message variants */
+    .variants-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .variant {
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .variant:hover { border-color: var(--rose-light); }
+
+    .variant-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .variant-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .variant-label span {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .var-a span { background: var(--rose); }
+    .var-b span { background: var(--gold); }
+
+    .btn-copy {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      cursor: pointer;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+
+    .btn-copy:hover {
+      border-color: var(--rose);
+      color: var(--rose);
+      background: rgba(201,115,106,0.05);
+    }
+
+    .btn-copy.copied {
+      border-color: #A8C5A0;
+      color: #3A6B35;
+      background: #F0F7EF;
+    }
+
+    .variant-body {
+      padding: 16px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--dark);
+      white-space: pre-wrap;
+    }
+
+    .variant-tip {
+      padding: 10px 16px;
+      background: #FBF6EC;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: #7A6020;
+    }
+
+    /* Footer tip */
+    .tip-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #FBF6EC;
+      border: 1px solid #E8D9B0;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-top: 20px;
+      font-size: 13px;
+      color: #7A6020;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 24px 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Error */
+    .error-msg {
+      background: #FDF0EE;
+      border: 1px solid var(--rose-light);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #8B3A35;
+      display: none;
+      margin-top: 12px;
+    }
+
+    .error-msg.visible { display: block; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="logo-mark">
+      <div class="logo-icon">✂️</div>
+      <div class="logo-text">Salón<span>Reach</span></div>
+    </div>
+    <h1>Mensajes que<br/><em>abren puertas</em></h1>
+    <p class="subtitle">Introduce el perfil de un salón y genera un DM personalizado que conecta con su dolor real — no otro pitch genérico.</p>
+  </header>
+
+  <!-- Input card -->
+  <div class="card">
+    <div class="section-label">Perfil del salón</div>
+    <div class="profile-input-group">
+
+      <div class="input-row">
+        <input class="ig-input" id="igHandle" type="text" placeholder="@nombre_del_salon o URL de Instagram" />
+      </div>
+
+      <div class="context-grid">
+        <div class="context-field">
+          <label>Tipo de salón</label>
+          <select id="salonType">
+            <option value="">Sin especificar</option>
+            <option value="peluquería">Peluquería</option>
+            <option value="barbería">Barbería</option>
+            <option value="salón de belleza">Salón de belleza</option>
+            <option value="centro de uñas">Centro de uñas</option>
+            <option value="spa">Spa / centro estético</option>
+          </select>
+        </div>
+        <div class="context-field">
+          <label>Señal de dolor observada</label>
+          <select id="painSignal">
+            <option value="">Sin señal específica</option>
+            <option value="comentarios sin responder">Comentarios sin responder</option>
+            <option value="no tiene WhatsApp en bio">Sin WhatsApp en bio</option>
+            <option value="publica irregularmente">Publica muy irregular</option>
+            <option value="muchos seguidores pero poca interacción">Muchos seguidores, poca interacción</option>
+            <option value="precio en comentarios sin respuesta">Preguntan precio y no responden</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="context-field">
+        <label>Bio o descripción del perfil (opcional, pega aquí si la tienes)</label>
+        <textarea class="bio-area" id="salonBio" placeholder="Ej: 'Salón de peluquería en Madrid 💇‍♀️ Citas por WhatsApp o DM • Lunes a sábado'..."></textarea>
+      </div>
+
+      <button class="btn-generate" id="generateBtn" onclick="generateMessages()">
+        <span id="btnText">✨ Generar mensajes personalizados</span>
+        <div class="spinner" id="spinner" style="display:none"></div>
+      </button>
+
+      <div class="error-msg" id="errorMsg"></div>
+    </div>
+  </div>
+
+  <!-- Result card -->
+  <div class="result-card" id="resultCard">
+    <div class="result-header">
+      <div class="section-label" style="margin:0">Análisis del perfil</div>
+    </div>
+
+    <div class="analysis-pills" id="analysisPills"></div>
+
+    <div class="divider"></div>
+
+    <div class="section-label">2 variantes de mensaje</div>
+    <div class="variants-grid" id="variantsGrid"></div>
+
+    <div class="tip-bar">
+      💡 <span id="strategyTip"></span>
+    </div>
+  </div>
+
+  <footer>SalónReach · Hecho para cerrar más reuniones, no para enviar spam</footer>
+</div>
+
+<script>
+async function generateMessages() {
+  const handle = document.getElementById('igHandle').value.trim();
+  const salonType = document.getElementById('salonType').value;
+  const painSignal = document.getElementById('painSignal').value;
+  const bio = document.getElementById('salonBio').value.trim();
+
+  if (!handle) {
+    showError('Introduce el nombre o URL del perfil de Instagram.');
+    return;
+  }
+
+  setLoading(true);
+  hideError();
+  document.getElementById('resultCard').classList.remove('visible');
+
+  const salonName = handle.replace('@', '').replace('https://instagram.com/', '').replace('https://www.instagram.com/', '').split('/')[0];
+
+  const prompt = `Eres un experto en ventas B2B para el sector de salones de belleza en España.
+
+Tu tarea es analizar el perfil de Instagram de un salón y generar 2 mensajes de DM altamente personalizados para venderles un bot de WhatsApp que agenda citas automáticamente y responde FAQs mientras trabajan.
+
+DATOS DEL SALÓN:
+- Handle/nombre: @${salonName}
+- Tipo: ${salonType || 'salón de belleza (genérico)'}
+- Señal de dolor observada: ${painSignal || 'no especificada'}
+- Bio del perfil: ${bio || 'no disponible'}
+
+CONTEXTO DEL PRODUCTO:
+El bot responde WhatsApp 24/7, agenda citas automáticamente, responde preguntas frecuentes (precios, horarios, ubicación). El problema que resuelve: cuando la dueña está cortando pelo, pierde reservas porque no puede atender el móvil.
+
+INSTRUCCIONES:
+1. Primero, haz un análisis breve del perfil en formato JSON con estas claves:
+   - "signals": array de 3-4 strings cortos con señales observadas (positivas, negativas o neutras). Cada señal empieza con "✅" (positivo), "⚠️" (dolor/problema) o "💡" (oportunidad). Máximo 40 chars cada una.
+   - "profile_type": string corto describiendo qué tipo de salón parece ser
+   - "best_angle": el ángulo de dolor más relevante para este salón específico
+
+2. Luego genera 2 variantes de DM:
+   - Variante A ("Directo al dolor"): Empieza nombrando un dolor específico que has observado en su perfil. Tono cercano, directo. 2-3 frases + pregunta de cierre. Máximo 120 palabras.
+   - Variante B ("Curiosidad + valor"): Empieza con algo positivo de su perfil, luego introduce el problema de forma suave. Tono más cálido. 2-3 frases + pregunta de cierre. Máximo 120 palabras.
+
+3. Un tip de estrategia de envío de 1 frase (cuándo enviar, con qué tono, etc.)
+
+IMPORTANTE:
+- Los mensajes deben sonar como escritos por una persona real, NO como un bot
+- Menciona detalles específicos del salón cuando sea posible
+- Usa el nombre del salón de forma natural
+- El emoji debe ser escaso y natural (máx 1-2 por mensaje)
+- Termina siempre con una pregunta fácil de responder con "sí"
+
+Responde SOLO con JSON válido, sin markdown, sin texto adicional:
+{
+  "analysis": {
+    "signals": ["...", "...", "..."],
+    "profile_type": "...",
+    "best_angle": "..."
+  },
+  "variant_a": {
+    "label": "Directo al dolor",
+    "message": "...",
+    "tip": "..."
+  },
+  "variant_b": {
+    "label": "Curiosidad + valor", 
+    "message": "...",
+    "tip": "..."
+  },
+  "strategy_tip": "..."
+}`;
+
+  try {
+    const response = await fetch('/api/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    if (!response.ok) throw new Error('Error en la API');
+
+    const data = await response.json();
+    const text = data.content.map(i => i.text || '').join('');
+    const clean = text.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(clean);
+
+    renderResult(result, salonName);
+  } catch (err) {
+    showError('Algo fue mal al generar los mensajes. Inténtalo de nuevo.');
+    console.error(err);
+  }
+
+  setLoading(false);
+}
+
+function renderResult(data, salonName) {
+  // Analysis pills
+  const pillsContainer = document.getElementById('analysisPills');
+  pillsContainer.innerHTML = '';
+  
+  data.analysis.signals.forEach(signal => {
+    const pill = document.createElement('div');
+    let cls = 'neutral';
+    if (signal.startsWith('✅')) cls = 'positive';
+    if (signal.startsWith('⚠️')) cls = 'negative';
+    pill.className = `pill ${cls}`;
+    pill.textContent = signal;
+    pillsContainer.appendChild(pill);
+  });
+
+  // Add profile type pill
+  const typePill = document.createElement('div');
+  typePill.className = 'pill neutral';
+  typePill.textContent = `💡 ${data.analysis.profile_type}`;
+  pillsContainer.appendChild(typePill);
+
+  // Variants
+  const variantsGrid = document.getElementById('variantsGrid');
+  variantsGrid.innerHTML = '';
+
+  const variants = [
+    { data: data.variant_a, cls: 'var-a' },
+    { data: data.variant_b, cls: 'var-b' }
+  ];
+
+  variants.forEach(({ data: v, cls }, i) => {
+    const el = document.createElement('div');
+    el.className = 'variant';
+    el.innerHTML = `
+      <div class="variant-header">
+        <div class="variant-label ${cls}"><span></span>${v.label}</div>
+        <button class="btn-copy" onclick="copyMessage(this, '${encodeURIComponent(v.message)}')">Copiar</button>
+      </div>
+      <div class="variant-body">${v.message}</div>
+      <div class="variant-tip">💡 ${v.tip}</div>
+    `;
+    variantsGrid.appendChild(el);
+  });
+
+  // Strategy tip
+  document.getElementById('strategyTip').textContent = data.strategy_tip;
+
+  document.getElementById('resultCard').classList.add('visible');
+  document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyMessage(btn, encodedMsg) {
+  const msg = decodeURIComponent(encodedMsg);
+  navigator.clipboard.writeText(msg).then(() => {
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copiar';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+function setLoading(loading) {
+  const btn = document.getElementById('generateBtn');
+  const btnText = document.getElementById('btnText');
+  const spinner = document.getElementById('spinner');
+  btn.disabled = loading;
+  btnText.style.display = loading ? 'none' : 'inline';
+  spinner.style.display = loading ? 'block' : 'none';
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.classList.add('visible');
+}
+
+function hideError() {
+  document.getElementById('errorMsg').classList.remove('visible');
+}
+</script>
+</body>
+</html>
